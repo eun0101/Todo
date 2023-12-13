@@ -1,16 +1,17 @@
-import React, {} from 'react';
+import React, {createContext} from 'react';
 
-function TodoBody(){
+
+
+function TodoItem({key, text}){
     return(
-
-            <li className='todo-item'>
+            <li className='todo-item' key = {key}>
                 <label>
                     <input type="checkbox" className='checkbox' />
-                    <span className='todo-item__text'>{initialTodos.text}</span>
+                    <span className='todo-item__text'>{text}</span>
                 </label>
                 <button className='delete-btn' type='button'>삭제</button>
             </li>
     )
 }
 
-export default TodoBody;
+export default TodoItem;

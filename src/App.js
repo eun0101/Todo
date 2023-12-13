@@ -6,22 +6,25 @@ import './components/Todo-head'
 import TodoHead from "./components/Todo-head";
 import TodoBody from "./components/Todo-body";
 import TodoCreate from "./components/Todo-create";
+import {TodoProvider} from "./components/TodoContext";
 
-import React, {createContext} from 'react';
+import React, {createContext, useContext} from 'react';
+
 export const TodoDispatch = React.createContext(null);
 
 function App() {
   return (
-      <TodoDispatch.Provider >
+      <>
+      <TodoProvider>
           <div className="wrap">
               <div className="todo">
-                  <TodoHead></TodoHead>
-                  <TodoBody></TodoBody>
-
+                  <TodoHead/>
+                  <TodoBody/>
                   <TodoCreate></TodoCreate>
               </div>
           </div>
-      </TodoDispatch.Provider>
+      </TodoProvider>
+      </>
   );
 }
 

@@ -17,15 +17,19 @@ const initialState =   [
 
 
 function reducer(state, action){
+    const {id: getId} = action.item;
     switch (action.type){
         case 'SUBMIT':
             return state.concat(action.item);
+        case'REMOVE':
+            console.log(action)
+            return state.filter((todo)=> todo.id !== getId);
         default :
             return state;
     }
 }
 
-export const TodoStateContext = createContext();
+export const TodoStateContext = createContext(initialState);
 export const DispatchContext = createContext();
 const TodoNextIdContext = createContext();
 
@@ -34,7 +38,7 @@ const TodoNextIdContext = createContext();
 export function TodoProvider({children}){
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, dispatch] = useReducer(reducer, initialState);
-    const nextId = useRef(4); //다음 id값
+    let nextId = useRef(4); //다음 id값
 
     return(
         <TodoStateContext.Provider value={state}>

@@ -19,10 +19,6 @@ body{
   box-sizing: border-box;
 }
 
-*:focus{
-  outline: 0;
-}
-
 ol,
 ul,
 li{
@@ -106,6 +102,17 @@ button{
 
   .delete-btn{
     display: none;
+    width: 3.2rem;
+    height: 3.2rem;
+    background: $svg-remove center no-repeat;
+    background-size: 2rem auto;
+    border-radius: 50%;
+    font-size: 0;
+    line-height: 0;
+
+    &:hover{
+      background-color: $bg-gray;
+    }
   }
 }
 
@@ -134,10 +141,15 @@ label:has(input[type='checkbox']){
 }
 
 label:has(input[type='checkbox']:checked){
+  .todo-item__text{
+    text-decoration: line-through;
+    color: $text-color-gray;
+  }
+
   :before{
     background: $svg-check center;
-    background-color: $color-primary;
-    border-color: $color-primary;
+    background-color: $color-secondary;
+    border-color: $color-secondary;
     animation: checked ease-in-out 0.4s;
   }
 }
@@ -154,22 +166,11 @@ label:has(input[type='checkbox']:checked){
   }
 }
 
-.control-btn{
-  position: absolute;
-  z-index: 99;
-  inset: auto 1rem 18rem auto;
-  width: 4rem;
-  height: 4rem;
-  background: $svg-plus no-repeat center center;
-  background-size: 100% auto;
-  background-color: $color-primary;
-  border-radius: 50%;
-  text-indent: -999999px;
-}
-
 //todo-create
 .todo-create{
+  position: relative;
   position: absolute;
+  inset: auto auto -12.8rem 0;
   width: 100%;
   padding: 1.5rem 2rem;
   text-align: center;
@@ -177,6 +178,30 @@ label:has(input[type='checkbox']:checked){
   border-top-right-radius: 10px;
   background-color: $color-white;
   box-shadow: 0px -8px 12px 0px rgba(0, 0, 0, 0.04);
+  @include moving;
+
+  &.is_open{
+    inset: auto auto 0 0;
+
+    .control-btn{
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.control-btn{
+  position: absolute;
+  z-index: 99;
+  inset: -6rem 1rem auto auto;
+  width: 4rem;
+  height: 4rem;
+  background: $svg-plus no-repeat center center;
+  transform: rotate(225deg);
+  background-size: 100% auto;
+  background-color: $color-primary;
+  border-radius: 50%;
+  text-indent: -999999px;
+  @include moving;
 }
 
 .create-btn{
@@ -192,9 +217,6 @@ label:has(input[type='checkbox']:checked){
   &:hover{
     filter: opacity(0.8);
   }
-}
-
-.create-btn.submit{
 }
 
 .create-text{

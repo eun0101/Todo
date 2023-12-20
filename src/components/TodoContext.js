@@ -3,15 +3,18 @@ import React, {createContext, useContext, useState, useReducer, useRef} from 're
 const initialState =   [
     {
         id: 1,
-        text: "할 일 첫 번째"
+        text: "할 일 첫 번째",
+        done: false
     },
     {
         id: 2,
-        text: "할 일 두 번째"
+        text: "할 일 두 번째",
+        done: false
     },
     {
         id: 3,
-        text: "할 일 세 번째"
+        text: "할 일 세 번째",
+        done: false
     }
 ];
 
@@ -22,8 +25,10 @@ function reducer(state, action){
         case 'SUBMIT':
             return state.concat(action.item);
         case'REMOVE':
-            console.log(action)
             return state.filter((todo)=> todo.id !== getId);
+        case'DONE':
+            console.log(state);
+            return state.map((todo)=> (todo.id == getId)? {...todo, done:!(todo.done)} : todo)
         default :
             return state;
     }

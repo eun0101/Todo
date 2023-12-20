@@ -1,19 +1,25 @@
-import React, {useContext} from 'react';
-import {useState, useRef, useCallback} from "react";
+import React, {useContext, useState, useRef, useCallback, useEffect} from 'react';
 import {UseDispatchItem,  UseTodoNextId} from "./TodoContext";
 
 
 function TodoCreate(){
     const dispatch = UseDispatchItem();
     let nextId = UseTodoNextId();
-    // const [nextId, setNextId] = useState(4);
     const [text, setText] = useState();
     const textInput = useRef();
 
     const [isOpen, setIsOpen]= useState(false);
-    const openCreate = (e)=>{
+    const openCreate = ()=>{
         setIsOpen(!isOpen);
-    }
+        setText('');
+    };
+
+    //isOpen 값이 바뀌면 실행 되도록 함
+    useEffect(()=>{
+        setTimeout(()=>{
+            isOpen&& textInput.current.focus();
+        },500)
+    },[isOpen])
 
     const onSubmit = useCallback ((e)=>{
         e.preventDefault();
@@ -21,12 +27,13 @@ function TodoCreate(){
                 type: 'SUBMIT',
                 item: {
                     id: nextId.current,
-                    text: text
+                    text: text,
+                    done: false
                 }
             });
 
         nextId.current += 1;
-        setText(undefined);
+        setText('');
     });
 
     const onChange = (e) => {
@@ -41,7 +48,7 @@ function TodoCreate(){
             <input type="button" className='create-btn' value='추가' onClick={onSubmit}/>
             <form className="create" onSubmit={onSubmit}>
                 <input type="text" className='create-text' placeholder='할 일을 적으세요.'
-                       useref={textInput}
+                       ref={textInput}
                        onChange={onChange}
                        value={text || ''}
                 />

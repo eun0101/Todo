@@ -12,6 +12,7 @@ function TodoBody(){
                                 key={item.id}
                                 id={item.id}
                                 text={item.text}
+                                done={item.done}
                         />
                     ))}
                 </ul>

@@ -27,7 +27,7 @@ function reducer(state, action){
         case'REMOVE':
             return state.filter((todo)=> todo.id !== getId);
         case'DONE':
-            console.log(state);
+
             return state.map((todo)=> (todo.id == getId)? {...todo, done:!(todo.done)} : todo)
         default :
             return state;
@@ -56,18 +56,21 @@ export function TodoProvider({children}){
     )
 };
 
+//상태
 export function UseStateContext() {
     const context = useContext(TodoStateContext);
 
     return context;
 }
 
+//reducer 이용할 떄
 export function UseDispatchItem() {
     const context = useContext(DispatchContext);
 
     return context;
 }
 
+//다음 id값
 export function UseTodoNextId(){
     const context = useContext(TodoNextIdContext);
     return context;

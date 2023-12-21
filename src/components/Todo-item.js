@@ -1,10 +1,9 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback} from 'react';
 import { UseDispatchItem, UseTodoOpenPopupContext} from "./TodoContext";
 
 
 function TodoItem({id, text, done}){
     const dispatch = UseDispatchItem();
-    const todoItemInput = useRef();
 
     const onRemove = useCallback(()=>{
             dispatch({
@@ -24,7 +23,7 @@ function TodoItem({id, text, done}){
         })
     });
 
-    const {popText, popOpen} =  UseTodoOpenPopupContext();
+    const {popOpen} =  UseTodoOpenPopupContext();
     const openPopup = ()=>{
         popOpen({popup: true, id: id, text: text});
     };

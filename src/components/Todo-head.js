@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {UseStateContext} from "./TodoContext";
 
 function TodoHead(){
     const items = UseStateContext();
-
     const todayDate = new Date;
+
     const date = todayDate.toLocaleString("ko-Kr", {
         year: "numeric",
         weekday: "narrow",

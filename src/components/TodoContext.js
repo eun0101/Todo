@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState, useReducer, useRef, useCallback} from 'react';
+import React, {createContext, useContext, useState, useReducer, useRef} from 'react';
 
 const initialState =   [
     {
@@ -45,7 +45,7 @@ export function TodoProvider({children}){
     const [state, dispatch] = useReducer(reducer, initialState);
     let nextId = useRef(4); //다음 id값
     const [popText, setPopText] = useState({popup: false, id: '', text:''});
-    const popOpen = (popText)=> {return setPopText({...popText})};
+    const popOpen = (popText)=> setPopText({...popText});
 
     return(
         <TodoStateContext.Provider value={state}>

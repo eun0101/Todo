@@ -1,13 +1,12 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import TodoItem from "./Todo-item";
-import {TodoStateContext, UseDispatchItem, UseStateContext, UseTodoOpenPopupContext} from "./TodoContext";
+import {UseStateContext, UseTodoOpenPopupContext} from "./TodoContext";
 import TodoPopup from "./Todo-popup";
 
 function TodoBody(){
     const body = useRef();
     const items = UseStateContext();
     const {popText}= UseTodoOpenPopupContext();
-    console.log(popText)
 
     return(
             <div className='todo-body' ref={body}>

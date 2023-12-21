@@ -1,6 +1,22 @@
-import React, {useContext, useState, useRef, useCallback, useEffect} from 'react';
+import React, {useState, useRef, useCallback, useEffect} from 'react';
 import {UseDispatchItem,  UseTodoNextId} from "./TodoContext";
 
+
+function TodoCreateForm({onSubmit, onChange, textInput, text}){
+    return(
+        <>
+            <form className="create-form" onSubmit={onSubmit}>
+                <input type="text" className='create-text' placeholder='할 일을 적으세요.'
+                       ref={textInput}
+                       onChange={onChange}
+                       value={text || ''}
+                />
+                <input type="button" className='create-btn' value='추가' onClick={onSubmit}/>
+            </form>
+
+        </>
+    )
+}
 
 function TodoCreate(){
     const dispatch = UseDispatchItem();
@@ -44,15 +60,13 @@ function TodoCreate(){
     return(
         <div className={`todo-create ${isOpen? "is_open" : ''}`}>
             <button className='control-btn' type='button' onClick={openCreate}>할 일 추가</button>
-
-            <input type="button" className='create-btn' value='추가' onClick={onSubmit}/>
-            <form className="create" onSubmit={onSubmit}>
-                <input type="text" className='create-text' placeholder='할 일을 적으세요.'
-                       ref={textInput}
-                       onChange={onChange}
-                       value={text || ''}
+            <TodoCreateForm
+                onSubmit={onSubmit}
+                onChange={onChange}
+                textInput = {textInput}
+                text={text}
                 />
-            </form>
+
         </div>
     )
 }

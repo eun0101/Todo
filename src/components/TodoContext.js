@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState, useReducer, useRef} from 'react';
+import React, {createContext, useContext, useState, useReducer, useRef, useCallback} from 'react';
 
 const initialState =   [
     {
@@ -18,38 +18,42 @@ const initialState =   [
     }
 ];
 
-
 function reducer(state, action){
-    const {id: getId} = action.item;
+    const {id: getId, text: getText} = action.item;
     switch (action.type){
         case 'SUBMIT':
             return state.concat(action.item);
         case'REMOVE':
             return state.filter((todo)=> todo.id !== getId);
         case'DONE':
-
-            return state.map((todo)=> (todo.id == getId)? {...todo, done:!(todo.done)} : todo)
+            return state.map((todo)=> (todo.id == getId)? {...todo, done:!(todo.done)} : todo);
+        case 'EDIT':
+            return state.map((todo)=> (todo.id == getId)? {...todo, text: getText} : todo);
         default :
-            return state;
+            return console.log('타입 틀림');
     }
 }
 
 export const TodoStateContext = createContext(initialState);
 export const DispatchContext = createContext();
 const TodoNextIdContext = createContext();
+const TodoOpenPopupContext = createContext();
 
 
 
 export function TodoProvider({children}){
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, dispatch] = useReducer(reducer, initialState);
     let nextId = useRef(4); //다음 id값
+    const [popText, setPopText] = useState({popup: false, id: '', text:''});
+    const popOpen = (popText)=> {return setPopText({...popText})};
 
     return(
         <TodoStateContext.Provider value={state}>
                 <DispatchContext.Provider value={dispatch}>
                     <TodoNextIdContext.Provider value={nextId}>
-                        {children}
+                        <TodoOpenPopupContext.Provider value={{popText, popOpen}}>
+                            {children}
+                        </TodoOpenPopupContext.Provider>
                     </TodoNextIdContext.Provider>
                 </DispatchContext.Provider>
         </TodoStateContext.Provider>
@@ -73,6 +77,11 @@ export function UseDispatchItem() {
 //다음 id값
 export function UseTodoNextId(){
     const context = useContext(TodoNextIdContext);
+    return context;
+}
+
+export function UseTodoOpenPopupContext(){
+    const context = useContext(TodoOpenPopupContext);
     return context;
 }
 

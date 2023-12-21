@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useRef} from 'react';
-import {UseStateContext, UseDispatchItem} from "./TodoContext";
-
+import React, {useCallback, useRef, useState} from 'react';
+import { UseDispatchItem, UseTodoOpenPopupContext} from "./TodoContext";
 
 
 function TodoItem({id, text, done}){
     const dispatch = UseDispatchItem();
+    const todoItemInput = useRef();
 
     const onRemove = useCallback(()=>{
             dispatch({
@@ -24,13 +24,23 @@ function TodoItem({id, text, done}){
         })
     });
 
+    const {popText, popOpen} =  UseTodoOpenPopupContext();
+    const openPopup = ()=>{
+        popOpen({popup: true, id: id, text: text});
+    };
+
     return(
             <li className='todo-item'>
                 <label role="checkbox" tabIndex="0">
                     <input type="checkbox" className='checkbox' name="DONE" onChange={onChange} />
-                    <span className='todo-item__text'>{text}</span>
+                    <div className='todo-item__text'>
+                        {text}
+                    </div>
                 </label>
-                <button className='delete-btn' type='button' onClick={onRemove}>삭제</button>
+                <div className="btns-wrap">
+                    <button className='btn-edit' type='button' onClick={openPopup}>수정</button>
+                    <button className='btn-delete' type='button' onClick={onRemove}>삭제</button>
+                </div>
             </li>
     )
 }

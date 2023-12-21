@@ -46,6 +46,9 @@ a{
 image,
 input,
 button{
+  font-family: "Pretendard", sans-serif;
+  font-size: 1.6rem;
+  line-height: 1;
   vertical-align: top;
 }
 
@@ -127,26 +130,31 @@ button{
   &__text{
     @include flex(row, flex-start, center);
     @include paper;
+    width: fit-content;
   }
 
-  .delete-btn{
-    display: none;
-    width: 3.2rem;
-    height: 3.2rem;
+  .btns-wrap{
+    @include flex(row, flex-start, center);
+    gap: 0.8rem;
+  }
+
+  .btn-edit{
+    margin-left: auto;
+    background: $svg-edit center no-repeat;
+    @include item-btn;
+  }
+
+  .btn-delete{
     background: $svg-remove center no-repeat;
-    background-size: 2rem auto;
-    border-radius: 50%;
-    font-size: 0;
-    line-height: 0;
-
-    &:hover{
-      background-color: $bg-gray;
-    }
+    @include item-btn;
   }
+
+
 }
 
 .todo-item:hover{
-  .delete-btn{
+  .btn-edit,
+  .btn-delete {
     display: block;
   }
 }
@@ -156,6 +164,7 @@ input[type='checkbox']{
 }
 
 label:has(input[type='checkbox']){
+  position: relative;
   cursor: pointer;
 
   :before{
@@ -199,17 +208,18 @@ label:has(input[type='checkbox']:checked){
 .todo-create{
   position: relative;
   position: absolute;
-  inset: auto auto -12.8rem 0;
+  inset: auto auto -7rem 0;
   width: 100%;
   padding: 1.5rem 2rem;
   text-align: center;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: $border-radius-card;
+  border-top-right-radius: $border-radius-card;
   background-color: $color-white;
   box-shadow: 0px -8px 12px 0px rgba(0, 0, 0, 0.04);
   @include moving;
 
   &.is_open{
+    //열렸을 때
     inset: auto auto 0 0;
 
     .control-btn{
@@ -220,8 +230,7 @@ label:has(input[type='checkbox']:checked){
 
 .control-btn{
   position: absolute;
-  z-index: 99;
-  inset: -6rem 1rem auto auto;
+  inset: -8rem 2rem auto auto;
   width: 4rem;
   height: 4rem;
   background: $svg-plus no-repeat center center;
@@ -233,19 +242,9 @@ label:has(input[type='checkbox']:checked){
   @include moving;
 }
 
-.create-btn{
-  background-color: $color-primary;
-  padding: 1rem;
-  border: none;
-  border-radius: 8px;
-  color: $color-white;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  cursor: pointer;
-
-  &:hover{
-    filter: opacity(0.8);
-  }
+.create-form{
+  @include flex(row);
+  gap: 1rem;
 }
 
 .create-text{
@@ -255,4 +254,79 @@ label:has(input[type='checkbox']:checked){
   font-size: $font-m;
   border: none;
   @include paper;
+}
+
+.create-btn{
+  background-color: $color-primary;
+  height: 4rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 6px;
+  color: $color-white;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover{
+    filter: opacity(0.8);
+  }
+}
+
+//수정 팝업
+.popup{
+  position: absolute;
+  inset: 0 0;
+  z-index: 999;
+  @include flex(row, center, center);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+
+  .btns-wrap{
+    @include flex(row);
+    border-top:1px solid $border-color;
+  }
+}
+
+.edit-wrap{
+  width: 30rem;
+  border-radius: $border-radius-card;
+  background: $color-white;
+  overflow: hidden;
+}
+
+.guide{
+  @include flex(row, center, center);
+  min-height: 6rem;
+  text-align: center;
+}
+
+.input-edit{
+  width: 28rem;
+  padding: 1rem;
+  margin: 1rem;
+  text-align: center;
+}
+
+.btn-edit-complete{
+  display: block;
+  width: 100%;
+  height: 4rem;
+  color: $color-secondary;
+  cursor: pointer;
+
+  &:hover{
+    background-color: $bg-gray;
+  }
+}
+
+.btn-close{
+  display: block;
+  width: 100%;
+  height: 4rem;
+  color: $text-color-gray;
+  cursor: pointer;
+
+  &:hover{
+    background-color: $bg-gray;
+  }
 }

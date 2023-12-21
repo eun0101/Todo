@@ -17,7 +17,11 @@ function TodoHead(){
 return(
     <div className='todo-head'>
         <h1>Todo!</h1><span className="date">{date}</span>
-        <p className="todo-count">남은 할 일 <span className="num">{count()}</span> 개</p>
+        <p className="todo-count">
+            남은 할 일 <span className="num">{count()}</span> 개
+            {(count() < 1) && '🎉'}
+        </p>
+
 
     </div>
 )

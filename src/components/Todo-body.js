@@ -1,11 +1,16 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import TodoItem from "./Todo-item";
-import {TodoStateContext, UseDispatchItem, UseStateContext} from "./TodoContext";
+import {TodoStateContext, UseDispatchItem, UseStateContext, UseTodoOpenPopupContext} from "./TodoContext";
+import TodoPopup from "./Todo-popup";
 
 function TodoBody(){
+    const body = useRef();
     const items = UseStateContext();
+    const {popText}= UseTodoOpenPopupContext();
+    console.log(popText)
+
     return(
-            <div className='todo-body'>
+            <div className='todo-body' ref={body}>
                 <ul className='todo-list'>
                     {items.map(item => (
                         <TodoItem
@@ -16,6 +21,7 @@ function TodoBody(){
                         />
                     ))}
                 </ul>
+                {popText.popup == true ? <TodoPopup/> : ''}
             </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {UseTodoOpenPopupContext, UseDispatchItem} from "./TodoContext";
 
 
@@ -18,7 +18,7 @@ function TodoEditForm({onSubmit, defaultText, textChange}){
 
 function TodoPopup(){
     const dispatch = UseDispatchItem();
-    let {popText, popOpen} = UseTodoOpenPopupContext();
+    let {popText, setPopOpen} = UseTodoOpenPopupContext();
     const {id: id, text: defaultText} = popText;
 
     const [editText= defaultText, setEditText] = useState();
@@ -27,28 +27,30 @@ function TodoPopup(){
         setEditText(value);
     }
 
-    const onClose = ()=>{
-        popOpen({popup: false});
-    }
+    const onClose = useCallback(()=>{
+        setPopOpen({popup: false});
+    }, [popText]);
 
     const [guide, setGuide] = useState(false);
-    const onSubmit = (e) =>{
-        e.preventDefault();
-        dispatch({
-            type: 'EDIT',
-            item:{
-                id: id,
-                text: editText
-            }
-        })
-        setGuide(true);
-    }
+    const onSubmit = useCallback((e)=>{
+
+            e.preventDefault();
+            dispatch({
+                type: 'EDIT',
+                item:{
+                    id: id,
+                    text: editText
+                }
+            })
+            setGuide(true);
+
+    },[editText]);
 
     return(
         <>
             <section className="popup">
                 <div className="edit-wrap">
-                    <div className="guide">
+                    <div className="edit-content">
                         {guide? "수정 되었습니다." : <TodoEditForm
                             onSubmit={onSubmit}
                             defaultText = {defaultText}
@@ -67,4 +69,4 @@ function TodoPopup(){
     )
 }
 
-export default TodoPopup;
+export default React.memo(TodoPopup);

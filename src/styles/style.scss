@@ -294,7 +294,7 @@ label:has(input[type='checkbox']:checked){
   overflow: hidden;
 }
 
-.guide{
+.edit-content{
   @include flex(row, center, center);
   min-height: 6rem;
   text-align: center;

@@ -4,7 +4,7 @@ const initialState =   [
     {
         id: 1,
         text: "할 일 첫 번째",
-        done: false
+        done: true
     },
     {
         id: 2,
@@ -45,13 +45,13 @@ export function TodoProvider({children}){
     const [state, dispatch] = useReducer(reducer, initialState);
     let nextId = useRef(4); //다음 id값
     const [popText, setPopText] = useState({popup: false, id: '', text:''});
-    const popOpen = (popText)=> setPopText({...popText});
+    const setPopOpen = (popText)=> setPopText({...popText});
 
     return(
         <TodoStateContext.Provider value={state}>
                 <DispatchContext.Provider value={dispatch}>
                     <TodoNextIdContext.Provider value={nextId}>
-                        <TodoOpenPopupContext.Provider value={{popText, popOpen}}>
+                        <TodoOpenPopupContext.Provider value={{popText, setPopOpen}}>
                             {children}
                         </TodoOpenPopupContext.Provider>
                     </TodoNextIdContext.Provider>
@@ -84,4 +84,3 @@ export function UseTodoOpenPopupContext(){
     const context = useContext(TodoOpenPopupContext);
     return context;
 }
-

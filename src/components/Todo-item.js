@@ -4,7 +4,6 @@ import { UseDispatchItem, UseTodoOpenPopupContext} from "./TodoContext";
 
 function TodoItem({id, text, done}){
     const dispatch = UseDispatchItem();
-
     const onRemove = useCallback(()=>{
             dispatch({
                 type: 'REMOVE',
@@ -23,15 +22,15 @@ function TodoItem({id, text, done}){
         })
     });
 
-    const {popOpen} =  UseTodoOpenPopupContext();
-    const openPopup = ()=>{
-        popOpen({popup: true, id: id, text: text});
-    };
+    const {setPopOpen} =  UseTodoOpenPopupContext();
+    const openPopup = useCallback(()=>{
+        setPopOpen({popup: true, id: id, text: text});
+    }, [id, text]);
 
     return(
             <li className='todo-item'>
                 <label role="checkbox" tabIndex="0">
-                    <input type="checkbox" className='checkbox' name="DONE" onChange={onChange} />
+                    <input type="checkbox" className='checkbox' name="DONE" onChange={onChange} checked={done}/>
                     <div className='todo-item__text'>
                         {text}
                     </div>
@@ -44,4 +43,4 @@ function TodoItem({id, text, done}){
     )
 }
 
-export default TodoItem;
+export default React.memo(TodoItem);

@@ -8,9 +8,7 @@ import TodoBody from "./components/Todo-body";
 import TodoCreate from "./components/Todo-create";
 import {TodoProvider} from "./components/TodoContext";
 
-import React, {createContext, useContext} from 'react';
-
-export const TodoDispatch = React.createContext(null);
+import React from 'react';
 
 function App() {
   return (

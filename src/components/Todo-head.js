@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {UseStateContext} from "./TodoContext";
 
 function TodoHead(){
@@ -12,17 +12,18 @@ function TodoHead(){
         day: "numeric"
     });
 
-    const count = ()=> items.filter((item)=> (item.done === false)).length;
+    const count = useMemo(()=> {
+        console.log('df');
+        return () => items.filter(item=> item.done === false).length
+        },[items])
 
 return(
     <div className='todo-head'>
         <h1>Todo!</h1><span className="date">{date}</span>
         <p className="todo-count">
             남은 할 일 <span className="num">{count()}</span> 개
-            {(count() < 1) && '🎉'}
+            {count&& '🎉'}
         </p>
-
-
     </div>
 )
 }

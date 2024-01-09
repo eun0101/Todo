@@ -43,4 +43,4 @@ function TodoItem({id, text, done}){
     )
 }
 
-export default React.memo(TodoItem);
+export default TodoItem;

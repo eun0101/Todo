@@ -24,7 +24,7 @@ function reducer(state, action){
         case 'SUBMIT':
             return state.concat(action.item);
         case'REMOVE':
-            return state.filter((todo)=> todo.id !== getId);
+            return state.filter((todo)=> todo.id !== getId );
         case'DONE':
             return state.map((todo)=> (todo.id == getId)? {...todo, done:!(todo.done)} : todo);
         case 'EDIT':
@@ -43,20 +43,24 @@ const TodoOpenPopupContext = createContext();
 
 export function TodoProvider({children}){
     const [state, dispatch] = useReducer(reducer, initialState);
-    let nextId = useRef(4); //다음 id값
-    const [popText, setPopText] = useState({popup: false, id: '', text:''});
-    const setPopOpen = (popText)=> setPopText({...popText});
 
     return(
         <TodoStateContext.Provider value={state}>
                 <DispatchContext.Provider value={dispatch}>
-                    <TodoNextIdContext.Provider value={nextId}>
-                        <TodoOpenPopupContext.Provider value={{popText, setPopOpen}}>
-                            {children}
-                        </TodoOpenPopupContext.Provider>
-                    </TodoNextIdContext.Provider>
+                    {children}
                 </DispatchContext.Provider>
         </TodoStateContext.Provider>
+    )
+};
+
+export function TodoPopupProvider({children}){
+    const [isOpen, setIsOpen] = useState(false);
+    const [popText, setPopText] = useState({popup: false, id: '', text:''});
+    const setPopOpen = (popText)=> setPopText({...popText});
+    return(
+        <TodoOpenPopupContext.Provider value={{isOpen, setPopOpen, popText}}>
+            {children}
+        </TodoOpenPopupContext.Provider>
     )
 };
 
@@ -71,12 +75,6 @@ export function UseStateContext() {
 export function UseDispatchItem() {
     const context = useContext(DispatchContext);
 
-    return context;
-}
-
-//다음 id값
-export function UseTodoNextId(){
-    const context = useContext(TodoNextIdContext);
     return context;
 }
 

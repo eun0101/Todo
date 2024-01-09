@@ -1,16 +1,20 @@
 import React, { useMemo} from 'react';
 import TodoItem from "./Todo-item";
 import {UseStateContext, UseTodoOpenPopupContext} from "./TodoContext";
+import TodoPopup from "./Todo-popup";
+
 
 
 function TodoBody(){
     const items = UseStateContext();
+    const {popText} = UseTodoOpenPopupContext();
 
     const todoItems = useMemo(()=>{
         return items
         }, [items]);
 
     return(
+        <>
             <div className='todo-body'>
                 <ul className='todo-list'>
                     {todoItems.map(item => (
@@ -23,7 +27,9 @@ function TodoBody(){
                     ))}
                 </ul>
             </div>
+            {popText.popup == true ? <TodoPopup/> : ''}
+        </>
     )
 }
 
-export default React.memo(TodoBody);
+export default TodoBody;
